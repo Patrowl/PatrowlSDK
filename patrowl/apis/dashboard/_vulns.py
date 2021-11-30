@@ -27,6 +27,7 @@
 
 import requests
 from patrowl.exceptions import PatrowlException
+from . import constants
 
 
 def get_vulns(self, org_id=None, page=1, limit=10):
@@ -51,13 +52,64 @@ def get_vulns(self, org_id=None, page=1, limit=10):
 
 def get_vuln(self, vuln_id):
     """
-    Get vuln detailss.
+    Get vuln details.
 
     :param vuln_id: Vulnerability ID
+    :type vuln_id: int|str
+    :return: Vulnerability details
     :rtype: json
     """
     try:
         r = self.rs.get(self.url+f"/api/auth/vulns/{vuln_id}/?format=json")
+        return r.text
+    except requests.exceptions.RequestException as e:
+        raise PatrowlException("Unable to retrieve vuln: {}".format(e))
+
+
+def create_vuln(
+        self, asset_id, severity=0, cvss_vector="", title="", description="",
+        category="", solution_headline="", solution="",
+        solution_priority="hardening", solution_effort="low",
+        is_quickwin=False, comments=""):
+    """
+    Create a new vulnerability.
+
+    :param asset_id: Asset ID
+    :param severity: Severity
+    :param cvss_vector: CVSSv3 vector
+    :param title: Title
+    :param description: Description
+    :param category: Category
+    :param solution_headline: Solution Headline
+    :param solution: Solution details
+    :param solution_priority: Solution priority
+    :param solution_effort: Solution effort
+    :param is_quickwin: Is quick-win ?
+    :param comments: Comments
+    :rtype: json
+    """
+    if severity not in constants.VULNERABILITY_SEVERITY:
+        raise PatrowlException("Bad 'severity' parameter")
+    if solution_priority not in constants.VULNERABILITY_SOLUTION_PRIORITIES:
+        raise PatrowlException("Bad 'solution_priority' parameter")
+    if solution_effort not in constants.VULNERABILITY_SOLUTION_EFFORTS:
+        raise PatrowlException("Bad 'solution_effort' parameter")
+    data = {
+        'asset': asset_id,
+        'severity': severity,
+        'cvss_vector': cvss_vector,
+        'title': title,
+        'description': description,
+        'category': category,
+        'solution_headline': solution_headline,
+        'solution': solution,
+        'solution_priority': solution_priority,
+        'solution_effort': solution_effort,
+        'is_quickwin': is_quickwin,
+        'comments': comments
+    }
+    try:
+        r = self.rs.post(self.url+"/api/auth/vulns/?format=json", json=data)
         return r.text
     except requests.exceptions.RequestException as e:
         raise PatrowlException("Unable to retrieve vuln: {}".format(e))

@@ -88,7 +88,7 @@ class PatrowlApi:
     from ._assets import get_assets, sync_assets
 
     # Vulns
-    from ._vulns import get_vulns, get_vuln
+    from ._vulns import get_vulns, get_vuln, create_vuln
 
     # Tickets
     from ._tickets import get_tickets, get_ticket

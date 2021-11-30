@@ -25,30 +25,28 @@
 # ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 # POSSIBILITY OF SUCH DAMAGE.
 
-from patrowl.apis.dashboard import PatrowlApi
+VULNERABILITY_SEVERITY = [
+    0, 1, 2, 3, 4
+]
 
+VULNERABILITY_STATUS = [
+    'new', 'ack', 'assigned', 'patched', 'closed',
+    'closed-benign', 'closed-fp', 'closed-duplicate', 'closed-workaround'
+]
 
-api = PatrowlApi(
-    url='http://localhost:8005',
-    auth_token='22e8e9e33e40462dcf64584df4d455df3c0ab9a8'
-)
+active_vulns_status = [
+    'new', 'ack', 'assigned'
+]
 
-# Retests
-# List all vulns
-# print(api.get_vulns())
+closed_vulns_status = [
+    'patched', 'closed',
+    'closed-benign', 'closed-fp', 'closed-duplicate', 'closed-workaround'
+]
 
-new_vuln = api.create_vuln(
-    # arsenal_id=0,
-    asset_id=1,
-    severity=1,  # Low
-    cvss_vector="AV:A/AC:H/PR:L/UI:R/S:C/C:H/I:H/A:H",
-    title="title test",
-    description="description test",
-    solution_headline="solution_headline test",
-    solution="solution test",
-    solution_priority="urgent",
-    solution_effort="medium",
-    is_quickwin=True,
-    comments=""
-)
-print(new_vuln)
+VULNERABILITY_SOLUTION_PRIORITIES = [
+    'urgent', 'moderate', 'hardening'
+]
+
+VULNERABILITY_SOLUTION_EFFORTS = [
+    'low', 'medium', 'high'
+]

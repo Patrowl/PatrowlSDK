@@ -25,37 +25,50 @@
 # ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 # POSSIBILITY OF SUCH DAMAGE.
 
-from patrowl.apis.dashboard import PatrowlApi
-import json
-
-api = PatrowlApi(
-    url='http://localhost:8005',
-    auth_token='22e8e9e33e40462dcf64584df4d455df3c0ab9a8'
-)
+import requests
+from patrowl.exceptions import PatrowlException
 
 
-def test_orgs_list():
-    """Get orgs."""
-    orgs = json.loads(api.get_orgs())
-    assert len(orgs['results']) >= 0
+def get_users(self, page=1, limit=10):
+    """
+    Get all users.
+
+    :param page: Page number of results (Opt.)
+    :param limit: Max results per page. Default is 10, Max is 100 (Opt.)
+    :rtype: json
+    """
+    url_params = f'?format=json&page={page}&limit={limit}'
+
+    try:
+        r = self.rs.get(self.url+"/api/auth/users/{}".format(url_params))
+        return r.text
+    except requests.exceptions.RequestException as e:
+        raise PatrowlException("Unable to list users: {}".format(e))
 
 
-def test_org_details():
-    """Get org details."""
-    orgs = json.loads(api.get_orgs())
-    org_id = orgs['results'][0]['id']
-    assert str(org_id).isnumeric()
-    org = json.loads(api.get_org(org_id))
-    assert org['name'] != ""
-    org_users = json.loads(api.get_org_users(org_id))
-    assert len(org_users['results']) >= 0
-    org_not_users = json.loads(api.get_org_not_users(org_id))
-    assert len(org_not_users['results']) >= 0
+def get_user(self, user_id):
+    """
+    Get user details.
 
-# org_settings = json.loads(api.get_org_settings(org_id))
-# print(org_settings)
-# print(api.get_org_setting(org_id, org_settings['results'][0]['id']))
+    :param user_id: User ID
+    :rtype: json
+    """
+    try:
+        r = self.rs.get(self.url+f"/api/auth/users/{user_id}/?format=json")
+        return r.text
+    except requests.exceptions.RequestException as e:
+        raise PatrowlException("Unable to retrieve user: {}".format(e))
 
 
-# reset
-# print(api.get_org_settings_reset(org_id))
+def get_user_totp(self, user_id):
+    """
+    Get user TOTP.
+
+    :param user_id: User ID
+    :rtype: json
+    """
+    try:
+        r = self.rs.get(self.url+f"/api/auth/users/{user_id}/totp?format=json")
+        return r.text
+    except requests.exceptions.RequestException as e:
+        raise PatrowlException("Unable to retrieve user TOTP: {}".format(e))

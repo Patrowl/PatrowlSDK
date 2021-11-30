@@ -26,6 +26,7 @@
 # POSSIBILITY OF SUCH DAMAGE.
 
 from patrowl.apis.dashboard import PatrowlApi
+import json
 
 
 api = PatrowlApi(
@@ -36,3 +37,9 @@ api = PatrowlApi(
 # Assets
 # List all assets
 print(api.get_assets())
+print(api.get_assets(1))
+
+# Sync all assets
+r = json.loads(api.sync_assets(2))
+print(r['status'])
+assert r['status'] == "enqueued"

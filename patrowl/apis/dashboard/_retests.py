@@ -97,6 +97,8 @@ def sync_retests(self):
     """
     Sync all retests from Arsenal.
 
+    ** Administration Only **
+
     :rtype: json
     """
     try:

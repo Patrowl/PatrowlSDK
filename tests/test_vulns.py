@@ -26,6 +26,7 @@
 # POSSIBILITY OF SUCH DAMAGE.
 
 from patrowl.apis.dashboard import PatrowlApi
+import json
 
 
 api = PatrowlApi(
@@ -33,9 +34,9 @@ api = PatrowlApi(
     auth_token='22e8e9e33e40462dcf64584df4d455df3c0ab9a8'
 )
 
-# Retests
+# Vulns
 # List all vulns
-# print(api.get_vulns())
+print(api.get_vulns())
 
 new_vuln = api.create_vuln(
     # arsenal_id=0,
@@ -52,3 +53,15 @@ new_vuln = api.create_vuln(
     comments=""
 )
 print(new_vuln)
+
+# Get vuln
+vuln = api.get_vuln(
+    vuln_id=json.loads(new_vuln)['id']
+)
+print(vuln)
+
+# Delete the vuln
+deleted_vuln = api.delete_vuln(
+    vuln_id=json.loads(new_vuln)['id']
+)
+print(deleted_vuln)

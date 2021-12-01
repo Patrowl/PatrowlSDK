@@ -25,6 +25,27 @@
 # ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 # POSSIBILITY OF SUCH DAMAGE.
 
+# Assets
+ASSET_TYPES = [
+    'ip',
+    'ip-range',
+    'ip-subnet',
+    'fqdn',
+    'domain',
+    'url',
+    'keyword'
+]
+
+ASSET_EXPOSURES = [
+    'unknown', 'external', 'internal', 'restricted'
+]
+
+ASSET_CRITICALITIES = [
+    1, 2, 3
+]
+
+
+# Vulnerability
 VULNERABILITY_SEVERITY = [
     0, 1, 2, 3, 4
 ]

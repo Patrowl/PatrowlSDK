@@ -112,4 +112,19 @@ def create_vuln(
         r = self.rs.post(self.url+"/api/auth/vulns/?format=json", json=data)
         return r.text
     except requests.exceptions.RequestException as e:
-        raise PatrowlException("Unable to retrieve vuln: {}".format(e))
+        raise PatrowlException("Unable to create vuln: {}".format(e))
+
+
+def delete_vuln(self, vuln_id):
+    """
+    Delete a vulnerability.
+
+    :param vuln_id: Vuln ID
+    :type vuln_id: int|str
+    :rtype: json
+    """
+    try:
+        r = self.rs.delete(self.url+f"/api/auth/vulns/{vuln_id}/?format=json")
+        return r.text
+    except requests.exceptions.RequestException as e:
+        raise PatrowlException("Unable to delete a vuln: {}".format(e))

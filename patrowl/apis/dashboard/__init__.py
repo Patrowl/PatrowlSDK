@@ -85,10 +85,11 @@ class PatrowlApi:
             raise PatrowlException("Unable to retrieve vuln: {}".format(e))
 
     # Assets
-    from ._assets import get_assets, sync_assets
+    from ._assets import get_assets, get_asset, sync_assets
+    from ._assets import create_asset, update_asset, delete_asset
 
     # Vulns
-    from ._vulns import get_vulns, get_vuln, create_vuln
+    from ._vulns import get_vulns, get_vuln, create_vuln, delete_vuln
 
     # Tickets
     from ._tickets import get_tickets, get_ticket

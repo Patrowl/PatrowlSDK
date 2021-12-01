@@ -33,8 +33,12 @@ def get_orgs(self, page=1, limit=10):
     """
     Get all organizations.
 
+    ** Administration Only **
+
     :param page: Page number of results (Opt.)
+    :type page: int
     :param limit: Max results per page. Default is 10, Max is 100 (Opt.)
+    :type limit: int
     :rtype: json
     """
     url_params = f'?format=json&page={page}&limit={limit}'
@@ -51,6 +55,7 @@ def get_org(self, org_id):
     Get organization details.
 
     :param org_id: Organization ID
+    :type org_id: int|str
     :rtype: json
     """
     try:
@@ -65,6 +70,7 @@ def get_org_users(self, org_id):
     Get organization users.
 
     :param org_id: Organization ID
+    :type org_id: int|str
     :rtype: json
     """
     try:
@@ -79,6 +85,7 @@ def get_org_not_users(self, org_id):
     Get users not in orgnization.
 
     :param org_id: Organization ID
+    :type org_id: int|str
     :rtype: json
     """
     try:
@@ -94,6 +101,7 @@ def get_org_settings(self, org_id):
     Get users settings.
 
     :param org_id: Organization ID
+    :type org_id: int|str
     :rtype: json
     """
     try:
@@ -109,6 +117,7 @@ def get_org_settings_reset(self, org_id):
     Reset users settings.
 
     :param org_id: Organization ID
+    :type org_id: int|str
     :rtype: json
     """
     try:
@@ -124,7 +133,9 @@ def get_org_setting(self, org_id, setting_id):
     Get users settings.
 
     :param org_id: Organization ID
+    :type org_id: int|str
     :param setting_id: Setting ID
+    :type setting_id: int|str
     :rtype: json
     """
     try:

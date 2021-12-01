@@ -27,6 +27,7 @@
 
 import requests
 from patrowl.exceptions import PatrowlException
+from . import constants
 
 
 def get_assets(self, org_id=None, page=1, limit=10):
@@ -34,8 +35,11 @@ def get_assets(self, org_id=None, page=1, limit=10):
     Get all assets.
 
     :param org_id: Organization ID
+    :type org_id: int|str
     :param page: Page number of results (Opt.)
+    :type page: int
     :param limit: Max results per page. Default is 10, Max is 100 (Opt.)
+    :type limit: int
     :rtype: json
     """
     url_params = f'?format=json&page={page}&limit={limit}'
@@ -49,11 +53,30 @@ def get_assets(self, org_id=None, page=1, limit=10):
         raise PatrowlException("Unable to list assets: {}".format(e))
 
 
+def get_asset(self, asset_id):
+    """
+    Get asset details.
+
+    :param asset_id: Asset ID
+    :type asset_id: int|str
+    :return: Asset details
+    :rtype: json
+    """
+    try:
+        r = self.rs.get(self.url+f"/api/auth/assets/{asset_id}/?format=json")
+        return r.text
+    except requests.exceptions.RequestException as e:
+        raise PatrowlException("Unable to retrieve asset: {}".format(e))
+
+
 def sync_assets(self, org_id=None):
     """
     Sync all assets from Arsenal.
 
+    ** Administration Only **
+
     :param org_id: Organization ID
+    :type org_id: int|str
     :rtype: json
     """
     url_params = f"{self.url}/api/auth/assets/sync?format=json"
@@ -65,3 +88,95 @@ def sync_assets(self, org_id=None):
         return r.text
     except requests.exceptions.RequestException as e:
         raise PatrowlException("Unable to sync retests: {}".format(e))
+
+
+def create_asset(
+        self, value, criticality=0, type="", is_active=False, description="",
+        exposure="external", is_monitored=False):
+    """
+    Create a new asset.
+
+    :param value: Asset value
+    :type value: str
+    :param criticality: Criticality
+    :type criticality: int
+    :param type: Type
+    :type type: str
+    :param is_active: Is active ?
+    :type is_active: bool
+    :param description: Description
+    :type description: str
+    :param exposure: Exposure
+    :type exposure: str
+    :param is_monitored: Is monitored ?
+    :type is_monitored: bool
+    :rtype: json
+    """
+    if criticality not in constants.ASSET_CRITICALITIES:
+        raise PatrowlException("Bad 'criticality' parameter")
+    if type not in constants.ASSET_TYPES:
+        raise PatrowlException("Bad 'type' parameter")
+    if exposure not in constants.ASSET_EXPOSURES:
+        raise PatrowlException("Bad 'exposure' parameter")
+    data = {
+        'value': value,
+        'criticality': criticality,
+        'type': type,
+        'is_active': is_active,
+        'description': description,
+        'exposure': exposure,
+        'is_monitored': is_monitored
+    }
+    try:
+        r = self.rs.post(self.url+"/api/auth/assets/?format=json", json=data)
+        return r.text
+    except requests.exceptions.RequestException as e:
+        raise PatrowlException("Unable to create asset: {}".format(e))
+
+
+def update_asset(self, asset_id, kwargs):
+    """
+    Update an asset.
+
+    :param asset_id: Asset ID
+    :type asset_id: int|str
+    :param kwargs: Parameters
+    :type kwargs: dict
+    :rtype: json
+    """
+    data = {}
+
+    for attrib in kwargs.keys():
+        if attrib not in ['value', 'criticality', 'type', 'is_active', 'description', 'exposure', 'is_monitored']:
+            raise PatrowlException(f"Bad parameter: {attrib}")
+        if attrib == 'criticality' and kwargs['criticality'] not in constants.ASSET_CRITICALITIES:
+            raise PatrowlException("Bad 'criticality' parameter")
+        if attrib == 'type' and kwargs['type'] not in constants.ASSET_TYPES:
+            raise PatrowlException("Bad 'type' parameter")
+        if attrib == 'exposure' and kwargs['exposure'] not in constants.ASSET_EXPOSURES:
+            raise PatrowlException("Bad 'exposure' parameter")
+
+        data.update({
+            attrib: kwargs[attrib]
+        })
+
+    try:
+        r = self.rs.patch(self.url+f"/api/auth/assets/{asset_id}/?format=json", json=data)
+        return r.text
+    except requests.exceptions.RequestException as e:
+        raise PatrowlException("Unable to update asset: {}".format(e))
+
+
+def delete_asset(self, asset_id):
+    """
+    Delete an asset.
+
+    :param asset_id: Asset ID
+    :type asset_id: int|str
+    :rtype: json
+    """
+    try:
+        r = self.rs.delete(self.url+f"/api/auth/assets/{asset_id}/?format=json")
+        return r.text
+    except requests.exceptions.RequestException as e:
+        raise PatrowlException("Unable to delete an asset: {}".format(e))

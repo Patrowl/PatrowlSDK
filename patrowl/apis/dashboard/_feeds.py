@@ -34,8 +34,11 @@ def get_feeds(self, org_id=None, page=1, limit=10):
     Get all feeds.
 
     :param org_id: Organization ID
+    :type org_id: int|str
     :param page: Page number of results (Opt.)
+    :type page: int
     :param limit: Max results per page. Default is 10, Max is 100 (Opt.)
+    :type limit: int
     :rtype: json
     """
     url_params = f'?format=json&page={page}&limit={limit}'

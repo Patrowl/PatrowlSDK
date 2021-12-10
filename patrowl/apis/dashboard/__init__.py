@@ -91,6 +91,11 @@ class PatrowlApi:
     # Vulns
     from ._vulns import get_vulns, get_vuln, create_vuln, delete_vuln
 
+    # Pentests
+    from ._pentests import get_pentests, get_pentest
+    from ._pentests import create_pentest, delete_pentest
+    from ._pentests import get_pentest_assets, get_pentest_vulns
+
     # Tickets
     from ._tickets import get_tickets, get_ticket
 

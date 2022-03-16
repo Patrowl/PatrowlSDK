@@ -26,18 +26,22 @@
 # POSSIBILITY OF SUCH DAMAGE.
 
 from patrowl.apis.dashboard import PatrowlApi
+import pytest
 
 api = PatrowlApi(
     url='http://localhost:8005',
-    auth_token='22e8e9e33e40462dcf64584df4d455df3c0ab9a8'
+    auth_token='dd222d58fb5e72242d2cacd3f358c86bf84f1dcb'
 )
 
-# Retests
-# List all feeds
-print(api.get_feeds())
-# print(api.get_team_by_id(1))
-#
-# rand_name = ''.join(random.choice(string.ascii_uppercase + string.ascii_lowercase + string.digits) for _ in range(16))
-# new_team = api.add_team(name=rand_name, is_active=False)
-# print(new_team)
-# print(api.delete_team(new_team['id']))
+@pytest.mark.run('first')
+def test_first():
+
+    # Retests
+    # List all feeds
+    print(api.get_feeds())
+    # print(api.get_team_by_id(1))
+    #
+    # rand_name = ''.join(random.choice(string.ascii_uppercase + string.ascii_lowercase + string.digits) for _ in range(16))
+    # new_team = api.add_team(name=rand_name, is_active=False)
+    # print(new_team)
+    # print(api.delete_team(new_team['id']))

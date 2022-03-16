@@ -30,7 +30,7 @@
 from setuptools import setup, find_packages
 
 setup(
-    name='patrowl',
+    name='patrowl-sdk',
     version='1.0.0',
     description='Python API SDK for PatrowlDashboard',
     url='https://github.com/Patrowl/PatrowlSDK',

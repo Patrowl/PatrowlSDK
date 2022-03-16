@@ -27,41 +27,43 @@
 
 from patrowl.apis.dashboard import PatrowlApi
 import json
-
+import pytest
 
 api = PatrowlApi(
     url='http://localhost:8005',
-    auth_token='22e8e9e33e40462dcf64584df4d455df3c0ab9a8'
+    auth_token='dd222d58fb5e72242d2cacd3f358c86bf84f1dcb'
 )
 
-# Vulns
-# List all vulns
-print(api.get_vulns())
+@pytest.mark.run('first')
+def test_first():
+    # Vulns
+    # List all vulns
+    print(api.get_vulns())
 
-new_vuln = api.create_vuln(
-    # arsenal_id=0,
-    asset_id=1,
-    severity=1,  # Low
-    cvss_vector="AV:A/AC:H/PR:L/UI:R/S:C/C:H/I:H/A:H",
-    title="title test",
-    description="description test",
-    solution_headline="solution_headline test",
-    solution="solution test",
-    solution_priority="urgent",
-    solution_effort="medium",
-    is_quickwin=True,
-    comments=""
-)
-print(new_vuln)
+    new_vuln = api.create_vuln(
+        # arsenal_id=0,
+        asset_id=1,
+        severity=1,  # Low
+        cvss_vector="AV:A/AC:H/PR:L/UI:R/S:C/C:H/I:H/A:H",
+        title="title test",
+        description="description test",
+        solution_headline="solution_headline test",
+        solution="solution test",
+        solution_priority="urgent",
+        solution_effort="medium",
+        is_quickwin=True,
+        comments=""
+    )
+    print(new_vuln)
 
-# Get vuln
-vuln = api.get_vuln(
-    vuln_id=json.loads(new_vuln)['id']
-)
-print(vuln)
+    # Get vuln
+    vuln = api.get_vuln(
+        vuln_id=json.loads(new_vuln)['id']
+    )
+    print(vuln)
 
-# Delete the vuln
-deleted_vuln = api.delete_vuln(
-    vuln_id=json.loads(new_vuln)['id']
-)
-print(deleted_vuln)
+    # Delete the vuln
+    deleted_vuln = api.delete_vuln(
+        vuln_id=json.loads(new_vuln)['id']
+    )
+    print(deleted_vuln)

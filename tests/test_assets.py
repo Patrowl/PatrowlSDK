@@ -27,50 +27,52 @@
 
 from patrowl.apis.dashboard import PatrowlApi
 import json
-
+import pytest
 
 api = PatrowlApi(
     url='http://localhost:8005',
-    auth_token='22e8e9e33e40462dcf64584df4d455df3c0ab9a8'
+    auth_token='dd222d58fb5e72242d2cacd3f358c86bf84f1dcb'
 )
 
-# Assets
-# List all assets
-print(api.get_assets())
-print(api.get_assets(1))
+@pytest.mark.run('first')
+def test_first():
+    # Assets
+    # List all assets
+    print(api.get_assets())
+    print(api.get_assets(1))
 
-# Sync all assets
-r = json.loads(api.sync_assets(2))
-print(r['status'])
-assert r['status'] == "enqueued"
+    # Sync all assets
+    r = json.loads(api.sync_assets(2))
+    print(r['status'])
+    assert r['status'] == "enqueued"
 
-# Create an asset
-new_asset = api.create_asset(
-    value="coucou.com",
-    criticality=1,  # Low
-    type="domain",
-    is_active=True,
-    description="description test",
-    exposure="external",
-    is_monitored=True
-)
-print(new_asset)
+    # Create an asset
+    new_asset = api.create_asset(
+        value="coucou.com",
+        criticality=1,  # Low
+        type="domain",
+        is_active=True,
+        description="description test",
+        exposure="external",
+        is_monitored=True
+    )
+    print(new_asset)
 
-# Get asset
-asset = api.get_asset(
-    asset_id=json.loads(new_asset)['id']
-)
-print(asset)
+    # Get asset
+    asset = api.get_asset(
+        asset_id=json.loads(new_asset)['id']
+    )
+    print(asset)
 
-# Update the asset
-updated_asset = api.update_asset(
-    asset_id=json.loads(new_asset)['id'],
-    kwargs={'exposure': 'internal'}
-)
-print(updated_asset)
+    # Update the asset
+    updated_asset = api.update_asset(
+        asset_id=json.loads(new_asset)['id'],
+        kwargs={'exposure': 'internal'}
+    )
+    print(updated_asset)
 
-# Delete the asset
-deleted_asset = api.delete_asset(
-    asset_id=json.loads(updated_asset)['id']
-)
-print(deleted_asset)
+    # Delete the asset
+    deleted_asset = api.delete_asset(
+        asset_id=json.loads(updated_asset)['id']
+    )
+    print(deleted_asset)

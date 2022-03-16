@@ -26,11 +26,14 @@
 # POSSIBILITY OF SUCH DAMAGE.
 
 from patrowl.apis.dashboard import PatrowlApi
+import pytest
 
 api = PatrowlApi(
     url='http://localhost:8005',
-    auth_token='22e8e9e33e40462dcf64584df4d455df3c0ab9a8'
+    auth_token='dd222d58fb5e72242d2cacd3f358c86bf84f1dcb'
 )
 
-# Stats
-print(api.get_overview_stats())
+@pytest.mark.run('first')
+def test_first():
+    # Stats
+    print(api.get_overview_stats())

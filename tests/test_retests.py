@@ -27,19 +27,23 @@
 
 from patrowl.apis.dashboard import PatrowlApi
 import json
+import pytest
 
 api = PatrowlApi(
     url='http://localhost:8005',
-    auth_token='22e8e9e33e40462dcf64584df4d455df3c0ab9a8'
+    auth_token='dd222d58fb5e72242d2cacd3f358c86bf84f1dcb'
 )
 
-# Vulns
-# List all vulns
-retests = json.loads(api.get_retests())
+@pytest.mark.run('first')
+def test_first():
 
-# Get retest details
-retest_id = retests['results'][0]['id']
-print(api.get_retest(retest_id))
+    # Vulns
+    # List all vulns
+    retests = json.loads(api.get_retests())
 
-# Sync retests
-print(api.sync_retests())
+    # Get retest details
+    retest_id = retests['results'][0]['id']
+    print(api.get_retest(retest_id))
+
+    # Sync retests
+    print(api.sync_retests())

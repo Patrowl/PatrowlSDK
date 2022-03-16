@@ -27,18 +27,21 @@
 
 from patrowl.apis.dashboard import PatrowlApi
 import json
+import pytest
 
 api = PatrowlApi(
     url='http://localhost:8005',
-    auth_token='22e8e9e33e40462dcf64584df4d455df3c0ab9a8'
+    auth_token='dd222d58fb5e72242d2cacd3f358c86bf84f1dcb'
 )
 
-# Users
-# List all users
-users = json.loads(api.get_users())
-print(users)
+@pytest.mark.run('first')
+def test_first():
+    # Users
+    # List all users
+    users = json.loads(api.get_users())
+    print(users)
 
-# Get user details
-user_id = users['results'][0]['id']
-print(api.get_user(user_id))
-print(api.get_user_totp(user_id))
+    # Get user details
+    user_id = users['results'][0]['id']
+    print(api.get_user(user_id))
+    print(api.get_user_totp(user_id))

@@ -28,6 +28,41 @@
 import requests
 from patrowl.exceptions import PatrowlException
 
+def delete_org(self, id):
+    """
+    Delete organisation.
+
+    ** Administration Only **
+
+    :param id: Organization id
+    """
+    try:
+        r = self.rs.delete(f"{self.url}/api/auth/orgs/{id}/")
+        return r.text
+    except requests.exceptions.RequestException as e:
+        raise PatrowlException("Unable to delete org: {}".format(e))
+
+def add_org(self, name, slug, is_active):
+    """
+    Create new organisation.
+
+    ** Administration Only **
+
+    :param name: Organization name
+    :param slug: Organization slug
+    :param is_active: boolean
+    """
+    data = {
+        'name':name,
+        'slug': slug,
+        'is_active': is_active
+    }
+    try:
+        r = self.rs.post(self.url+"/api/auth/orgs/?format=json", json=data)
+        return r.json()
+    except requests.exceptions.RequestException as e:
+        raise PatrowlException("Unable to add org: {}".format(e))
+
 
 def get_orgs(self, page=1, limit=10):
     """

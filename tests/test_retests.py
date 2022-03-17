@@ -42,8 +42,10 @@ def test_first():
     retests = json.loads(api.get_retests())
 
     # Get retest details
-    retest_id = retests['results'][0]['id']
-    print(api.get_retest(retest_id))
+       
+    if len(retests) > 0 and len(retests['results']) > 0:
+        retest_id = retests['results'][0]['id']
+        print(api.get_retest(retest_id))
 
     # Sync retests
     print(api.sync_retests())

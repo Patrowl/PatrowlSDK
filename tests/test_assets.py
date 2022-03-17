@@ -28,10 +28,12 @@
 from patrowl.apis.dashboard import PatrowlApi
 import json
 import pytest
+import os
+
 
 api = PatrowlApi(
-    url='http://localhost:8005',
-    auth_token='dd222d58fb5e72242d2cacd3f358c86bf84f1dcb'
+    url=os.environ['URL'],
+    auth_token=os.environ['TOKEN']
 )
 
 @pytest.mark.run('first')

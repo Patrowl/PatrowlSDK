@@ -29,7 +29,7 @@ import requests
 from patrowl.exceptions import PatrowlException
 
 
-def get_users(self, page=1, limit=10):
+def get_users(self, page: int = 1, limit: int = 10):
     """
     Get all users.
 
@@ -37,7 +37,7 @@ def get_users(self, page=1, limit=10):
     :param limit: Max results per page. Default is 10, Max is 100 (Opt.)
     :rtype: json
     """
-    url_params = f'?format=json&page={page}&limit={limit}'
+    url_params = f'?format=json&page={str(page)}&limit={str(limit)}'
 
     try:
         r = self.rs.get(self.url+"/api/auth/users/{}".format(url_params))
@@ -46,7 +46,7 @@ def get_users(self, page=1, limit=10):
         raise PatrowlException("Unable to list users: {}".format(e))
 
 
-def get_user(self, user_id):
+def get_user(self, user_id: int):
     """
     Get user details.
 
@@ -54,13 +54,13 @@ def get_user(self, user_id):
     :rtype: json
     """
     try:
-        r = self.rs.get(self.url+f"/api/auth/users/{user_id}/?format=json")
+        r = self.rs.get(self.url+f"/api/auth/users/{str(user_id)}/?format=json")
         return r.text
     except requests.exceptions.RequestException as e:
         raise PatrowlException("Unable to retrieve user: {}".format(e))
 
 
-def get_user_totp(self, user_id):
+def get_user_totp(self, user_id: int):
     """
     Get user TOTP.
 
@@ -68,7 +68,7 @@ def get_user_totp(self, user_id):
     :rtype: json
     """
     try:
-        r = self.rs.get(self.url+f"/api/auth/users/{user_id}/totp?format=json")
+        r = self.rs.get(self.url+f"/api/auth/users/{str(user_id)}/totp?format=json")
         return r.text
     except requests.exceptions.RequestException as e:
         raise PatrowlException("Unable to retrieve user TOTP: {}".format(e))

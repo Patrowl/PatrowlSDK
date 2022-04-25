@@ -28,7 +28,8 @@
 import requests
 from patrowl.exceptions import PatrowlException
 
-def delete_org(self, id):
+
+def delete_org(self, org_id: int):
     """
     Delete organisation.
 
@@ -37,12 +38,13 @@ def delete_org(self, id):
     :param id: Organization id
     """
     try:
-        r = self.rs.delete(f"{self.url}/api/auth/orgs/{id}/")
+        r = self.rs.delete(f"{self.url}/api/auth/orgs/{str(org_id)}/")
         return r.text
     except requests.exceptions.RequestException as e:
         raise PatrowlException("Unable to delete org: {}".format(e))
 
-def add_org(self, name, slug, is_active):
+
+def create_org(self, name: str, slug: str, is_active: bool):
     """
     Create new organisation.
 
@@ -53,7 +55,7 @@ def add_org(self, name, slug, is_active):
     :param is_active: boolean
     """
     data = {
-        'name':name,
+        'name': name,
         'slug': slug,
         'is_active': is_active
     }
@@ -64,7 +66,7 @@ def add_org(self, name, slug, is_active):
         raise PatrowlException("Unable to add org: {}".format(e))
 
 
-def get_orgs(self, page=1, limit=10):
+def get_orgs(self, page: int = 1, limit: int = 10):
     """
     Get all organizations.
 
@@ -76,7 +78,7 @@ def get_orgs(self, page=1, limit=10):
     :type limit: int
     :rtype: json
     """
-    url_params = f'?format=json&page={page}&limit={limit}'
+    url_params = f'?format=json&page={str(page)}&limit={str(limit)}'
 
     try:
         r = self.rs.get(self.url+"/api/auth/orgs/{}".format(url_params))
@@ -85,96 +87,96 @@ def get_orgs(self, page=1, limit=10):
         raise PatrowlException("Unable to list orgs: {}".format(e))
 
 
-def get_org(self, org_id):
+def get_org(self, org_id: int):
     """
     Get organization details.
 
     :param org_id: Organization ID
-    :type org_id: int|str
+    :type org_id: int
     :rtype: json
     """
     try:
-        r = self.rs.get(self.url+f"/api/auth/orgs/{org_id}/?format=json")
+        r = self.rs.get(self.url+f"/api/auth/orgs/{str(org_id)}/?format=json")
         return r.text
     except requests.exceptions.RequestException as e:
         raise PatrowlException("Unable to retrieve org: {}".format(e))
 
 
-def get_org_users(self, org_id):
+def get_org_users(self, org_id: int):
     """
     Get organization users.
 
     :param org_id: Organization ID
-    :type org_id: int|str
+    :type org_id: int
     :rtype: json
     """
     try:
-        r = self.rs.get(self.url+f"/api/auth/orgs/{org_id}/users/?format=json")
+        r = self.rs.get(self.url+f"/api/auth/orgs/{str(org_id)}/users/?format=json")
         return r.text
     except requests.exceptions.RequestException as e:
         raise PatrowlException("Unable to retrieve org users: {}".format(e))
 
 
-def get_org_not_users(self, org_id):
+def get_org_not_users(self, org_id: int):
     """
     Get users not in orgnization.
 
     :param org_id: Organization ID
-    :type org_id: int|str
+    :type org_id: int
     :rtype: json
     """
     try:
         r = self.rs.get(
-            self.url+f"/api/auth/orgs/{org_id}/not-users/?format=json")
+            self.url+f"/api/auth/orgs/{str(org_id)}/not-users/?format=json")
         return r.text
     except requests.exceptions.RequestException as e:
         raise PatrowlException("Unable to retrieve org nusers: {}".format(e))
 
 
-def get_org_settings(self, org_id):
+def get_org_settings(self, org_id: int):
     """
     Get users settings.
 
     :param org_id: Organization ID
-    :type org_id: int|str
+    :type org_id: int
     :rtype: json
     """
     try:
         r = self.rs.get(
-            self.url+f"/api/auth/orgs/{org_id}/settings/?format=json")
+            self.url+f"/api/auth/orgs/{str(org_id)}/settings/?format=json")
         return r.text
     except requests.exceptions.RequestException as e:
         raise PatrowlException("Unable to retrieve org settings: {}".format(e))
 
 
-def get_org_settings_reset(self, org_id):
+def get_org_settings_reset(self, org_id: int):
     """
     Reset users settings.
 
     :param org_id: Organization ID
-    :type org_id: int|str
+    :type org_id: int
     :rtype: json
     """
     try:
         r = self.rs.get(
-            self.url+f"/api/auth/orgs/{org_id}/settings/reset?format=json")
+            self.url+f"/api/auth/orgs/{str(org_id)}/settings/reset?format=json")
         return r.text
     except requests.exceptions.RequestException as e:
         raise PatrowlException("Unable to reset org settings: {}".format(e))
 
 
-def get_org_setting(self, org_id, setting_id):
+def get_org_setting(self, org_id: int, setting_id: int):
     """
     Get users settings.
 
     :param org_id: Organization ID
-    :type org_id: int|str
+    :type org_id: int
     :param setting_id: Setting ID
-    :type setting_id: int|str
+    :type setting_id: int
     :rtype: json
     """
     try:
-        r = self.rs.get(self.url+f"/api/auth/orgs/{org_id}/settings/{setting_id}/?format=json")
+        r = self.rs.get(self.url+f"/api/auth/orgs/{str(org_id)}/settings/{str(setting_id)}/?format=json")
         return r.text
     except requests.exceptions.RequestException as e:
         raise PatrowlException("Unable to retrieve org setting: {}".format(e))

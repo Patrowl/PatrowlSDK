@@ -35,6 +35,7 @@ api = PatrowlApi(
     auth_token=os.environ['TOKEN']
 )
 
+
 @pytest.mark.run('first')
 def test_first():
     # Stats

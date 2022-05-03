@@ -26,7 +26,6 @@
 # POSSIBILITY OF SUCH DAMAGE.
 
 from patrowl.apis.dashboard import PatrowlApi
-import json
 import pytest
 import os
 
@@ -36,12 +35,14 @@ api = PatrowlApi(
     auth_token=os.environ['TOKEN']
 )
 
+
 @pytest.mark.run('first')
 def test_first():
     api.get_orgs()
-    #Create test teams
+    # Create test teams
     pytest.organisation1 = api.add_org('test-team-1', 'test-team-1', True)
     pytest.organisation2 = api.add_org('test-team-2', 'test-team-2', True)
+
 
 def test_delete():
     api.delete_org(pytest.organisation1["id"])

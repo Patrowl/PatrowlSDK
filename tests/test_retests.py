@@ -36,6 +36,7 @@ api = PatrowlApi(
     auth_token=os.environ['TOKEN']
 )
 
+
 @pytest.mark.run('first')
 def test_first():
 
@@ -44,7 +45,7 @@ def test_first():
     retests = json.loads(api.get_retests())
 
     # Get retest details
-       
+
     if len(retests) > 0 and len(retests['results']) > 0:
         retest_id = retests['results'][0]['id']
         print(api.get_retest(retest_id))

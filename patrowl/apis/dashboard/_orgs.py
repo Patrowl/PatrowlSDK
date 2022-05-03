@@ -1,7 +1,7 @@
 #!/usr/bin/env -S python3 -OO
 # coding:utf8
 
-# Copyright (c) 2021, Patrowl and contributors
+# Copyright (c) 2022, Patrowl and contributors
 # All rights reserved.
 #
 # Redistribution and use in source and binary forms, with or without
@@ -28,6 +28,7 @@
 import requests
 from patrowl.exceptions import PatrowlException
 
+
 def delete_org(self, id):
     """
     Delete organisation.
@@ -42,6 +43,7 @@ def delete_org(self, id):
     except requests.exceptions.RequestException as e:
         raise PatrowlException("Unable to delete org: {}".format(e))
 
+
 def add_org(self, name, slug, is_active):
     """
     Create new organisation.
@@ -53,7 +55,7 @@ def add_org(self, name, slug, is_active):
     :param is_active: boolean
     """
     data = {
-        'name':name,
+        'name': name,
         'slug': slug,
         'is_active': is_active
     }

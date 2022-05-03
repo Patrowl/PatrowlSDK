@@ -39,4 +39,4 @@ api = PatrowlApi(
 @pytest.mark.run('first')
 def test_first():
     # Stats
-    print(api.get_overview_stats())
+    print(api.get_overview_stats(1))

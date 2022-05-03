@@ -109,7 +109,7 @@ class PatrowlApi:
     from ._users import get_users, get_user, get_user_totp
 
     # Organizations
-    from ._orgs import get_orgs, get_org, add_org, delete_org
+    from ._orgs import get_orgs, get_org, create_org, delete_org
     from ._orgs import get_org_users, get_org_not_users
     from ._orgs import get_org_settings, get_org_setting
     from ._orgs import get_org_settings_reset

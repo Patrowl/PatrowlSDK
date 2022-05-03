@@ -34,7 +34,7 @@ setup(
     version='1.0.0',
     description='Python API SDK for PatrowlDashboard',
     url='https://github.com/Patrowl/PatrowlSDK',
-    author='Nicolas Mattiocco',
+    author='Patrowl SAS',
     author_email='getsupport@patrowl.io',
     license='AGPLv3',
     packages=find_packages(),

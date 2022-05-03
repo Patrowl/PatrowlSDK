@@ -32,7 +32,7 @@ Copyright (C) 2021-2022 [Patrowl](https://patrowl.io)
 ```
 rm -rf dist/ build/ PatrowlSDK.egg-info
 python setup.py sdist bdist_wheel
-twine upload dist/*
+twine upload -u Patrowl dist/*
 ```
 
 # Tests

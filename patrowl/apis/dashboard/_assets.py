@@ -30,7 +30,7 @@ from patrowl.exceptions import PatrowlException
 from . import constants
 
 
-def get_assets(self, org_id=None, page=1, limit=10):
+def get_assets(self, org_id: int = None, page: int = 1, limit: int = 10):
     """
     Get all assets.
 
@@ -42,9 +42,9 @@ def get_assets(self, org_id=None, page=1, limit=10):
     :type limit: int
     :rtype: json
     """
-    url_params = f'?format=json&page={page}&limit={limit}'
+    url_params = f'?format=json&page={str(page)}&limit={str(limit)}'
     if org_id is not None and str(org_id).isnumeric():
-        url_params += f'&org={org_id}'
+        url_params += f'&org={str(org_id)}'
 
     try:
         r = self.rs.get(f"{self.url}/api/auth/assets/{url_params}")
@@ -53,35 +53,35 @@ def get_assets(self, org_id=None, page=1, limit=10):
         raise PatrowlException("Unable to list assets: {}".format(e))
 
 
-def get_asset(self, asset_id):
+def get_asset(self, asset_id: int):
     """
     Get asset details.
 
     :param asset_id: Asset ID
-    :type asset_id: int|str
+    :type asset_id: int
     :return: Asset details
     :rtype: json
     """
     try:
-        r = self.rs.get(self.url+f"/api/auth/assets/{asset_id}/?format=json")
+        r = self.rs.get(self.url+f"/api/auth/assets/{str(asset_id)}/?format=json")
         return r.text
     except requests.exceptions.RequestException as e:
         raise PatrowlException("Unable to retrieve asset: {}".format(e))
 
 
-def sync_assets(self, org_id=None):
+def sync_assets(self, org_id: int = None):
     """
     Sync all assets from Arsenal.
 
     ** Administration Only **
 
     :param org_id: Organization ID
-    :type org_id: int|str
+    :type org_id: int
     :rtype: json
     """
     url_params = f"{self.url}/api/auth/assets/sync?format=json"
     if org_id is not None and str(org_id).isnumeric():
-        url_params += f'&org={org_id}'
+        url_params += f'&org={str(org_id)}'
 
     try:
         r = self.rs.get(url_params)
@@ -91,8 +91,8 @@ def sync_assets(self, org_id=None):
 
 
 def create_asset(
-        self, value, criticality=0, type="", is_active=False, description="",
-        exposure="external", is_monitored=False):
+        self, value: str, criticality: int = 0, type: str = "", is_active: bool = False,
+        description: str = "", exposure: str = "external", is_monitored: bool = False):
     """
     Create a new asset.
 
@@ -134,12 +134,12 @@ def create_asset(
         raise PatrowlException("Unable to create asset: {}".format(e))
 
 
-def update_asset(self, asset_id, kwargs):
+def update_asset(self, asset_id: int, kwargs):
     """
     Update an asset.
 
     :param asset_id: Asset ID
-    :type asset_id: int|str
+    :type asset_id: int
     :param kwargs: Parameters
     :type kwargs: dict
     :rtype: json
@@ -161,22 +161,22 @@ def update_asset(self, asset_id, kwargs):
         })
 
     try:
-        r = self.rs.patch(self.url+f"/api/auth/assets/{asset_id}/?format=json", json=data)
+        r = self.rs.patch(self.url+f"/api/auth/assets/{str(asset_id)}/?format=json", json=data)
         return r.text
     except requests.exceptions.RequestException as e:
         raise PatrowlException("Unable to update asset: {}".format(e))
 
 
-def delete_asset(self, asset_id):
+def delete_asset(self, asset_id: int):
     """
     Delete an asset.
 
     :param asset_id: Asset ID
-    :type asset_id: int|str
+    :type asset_id: int
     :rtype: json
     """
     try:
-        r = self.rs.delete(self.url+f"/api/auth/assets/{asset_id}/?format=json")
+        r = self.rs.delete(self.url+f"/api/auth/assets/{str(asset_id)}/?format=json")
         return r.text
     except requests.exceptions.RequestException as e:
         raise PatrowlException("Unable to delete an asset: {}".format(e))

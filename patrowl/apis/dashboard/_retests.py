@@ -29,7 +29,7 @@ import requests
 from patrowl.exceptions import PatrowlException
 
 
-def get_retests(self, org_id=None, page=1, limit=10):
+def get_retests(self, org_id: int = None, page: int = 1, limit: int = 10):
     """
     Get all retests.
 
@@ -38,9 +38,9 @@ def get_retests(self, org_id=None, page=1, limit=10):
     :param limit: Max results per page. Default is 10, Max is 100 (Opt.)
     :rtype: json
     """
-    url_params = f'?format=json&page={page}&limit={limit}'
+    url_params = f'?format=json&page={str(page)}&limit={str(limit)}'
     if org_id is not None and str(org_id).isnumeric():
-        url_params += f'&org={org_id}'
+        url_params += f'&org={str(org_id)}'
 
     try:
         r = self.rs.get(self.url+"/api/auth/retests/{}".format(url_params))
@@ -49,7 +49,7 @@ def get_retests(self, org_id=None, page=1, limit=10):
         raise PatrowlException("Unable to list retests: {}".format(e))
 
 
-def get_retest(self, retest_id):
+def get_retest(self, retest_id: int):
     """
     Get retest details.
 
@@ -57,13 +57,13 @@ def get_retest(self, retest_id):
     :rtype: json
     """
     try:
-        r = self.rs.get(self.url+f"/api/auth/retests/{retest_id}/?format=json")
+        r = self.rs.get(self.url+f"/api/auth/retests/{str(retest_id)}/?format=json")
         return r.text
     except requests.exceptions.RequestException as e:
         raise PatrowlException("Unable to retrieve retest: {}".format(e))
 
 
-def cancel_retest(self, retest_id):
+def cancel_retest(self, retest_id: int):
     """
     Cancel a retest.
 
@@ -72,13 +72,13 @@ def cancel_retest(self, retest_id):
     """
     try:
         r = self.rs.get(
-            self.url+f"/api/auth/retests/{retest_id}/cancel?format=json")
+            self.url+f"/api/auth/retests/{str(retest_id)}/cancel?format=json")
         return r.text
     except requests.exceptions.RequestException as e:
         raise PatrowlException("Unable to cancel retest: {}".format(e))
 
 
-def refresh_retest(self, retest_id):
+def refresh_retest(self, retest_id: int):
     """
     Refresh a retest.
 
@@ -87,7 +87,7 @@ def refresh_retest(self, retest_id):
     """
     try:
         r = self.rs.get(
-            self.url+f"/api/auth/retests/{retest_id}/refresh?format=json")
+            self.url+f"/api/auth/retests/{str(retest_id)}/refresh?format=json")
         return r.text
     except requests.exceptions.RequestException as e:
         raise PatrowlException("Unable to refresh retest: {}".format(e))

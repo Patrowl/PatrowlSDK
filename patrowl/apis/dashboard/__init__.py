@@ -32,8 +32,7 @@ from patrowl.exceptions import PatrowlException
 class PatrowlApi:
     """Python API for Patrowl."""
 
-    def __init__(
-            self, url, auth_token, proxies={}, ssl_verify=False, timeout=10):
+    def __init__(self, url: str, auth_token: str, proxies: dict = {}, ssl_verify: bool = False, timeout: int = 10):
         """
         Initialize a PatrowlApi object.
 
@@ -56,7 +55,7 @@ class PatrowlApi:
         self.rs.timeout = timeout
 
     # Generic command
-    def action(self, url, method='GET', data=None, params={}):
+    def action(self, url: str, method: str = 'GET', data: dict = None, params: dict = {}):
         """
         Call a generic action.
 
@@ -116,7 +115,7 @@ class PatrowlApi:
     from ._orgs import get_org_settings_reset
 
     # Stats
-    def get_overview_stats(self):
+    def get_overview_stats(self, org_id: int):
         """Return global stats."""
         stats = {}
         score = {}
@@ -124,25 +123,25 @@ class PatrowlApi:
         feeds = {}
 
         try:
-            r = self.rs.get(self.url+"/api/auth/overview/widgets/stats")
+            r = self.rs.get(self.url+"/api/auth/overview/" + str(org_id) + "/widgets/stats")
             stats = r.text
         except requests.exceptions.RequestException as e:
             raise PatrowlException("Unable to get ovw/stats: {}".format(e))
 
         try:
-            r = self.rs.get(self.url+"/api/auth/overview/widgets/score")
+            r = self.rs.get(self.url+"/api/auth/overview/" + str(org_id) + "/widgets/score")
             score = r.text
         except requests.exceptions.RequestException as e:
             raise PatrowlException("Unable to get ovw/score: {}".format(e))
 
         try:
-            r = self.rs.get(self.url+"/api/auth/overview/widgets/vulns")
+            r = self.rs.get(self.url+"/api/auth/overview/" + str(org_id) + "/widgets/vulns")
             vulns = r.text
         except requests.exceptions.RequestException as e:
             raise PatrowlException("Unable to get ovw/vulns: {}".format(e))
 
         try:
-            r = self.rs.get(self.url+"/api/auth/overview/widgets/feeds")
+            r = self.rs.get(self.url+"/api/auth/overview/" + str(org_id) + "/widgets/feeds")
             feeds = r.text
         except requests.exceptions.RequestException as e:
             raise PatrowlException("Unable to get ovw/feeds: {}".format(e))

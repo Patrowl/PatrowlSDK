@@ -29,7 +29,7 @@ import requests
 from patrowl.exceptions import PatrowlException
 
 
-def get_tickets(self, org_id=None, page=1, limit=10):
+def get_tickets(self, org_id: int = None, page: int = 1, limit: int = 10):
     """
     Get all tickets.
 
@@ -38,9 +38,9 @@ def get_tickets(self, org_id=None, page=1, limit=10):
     :param limit: Max results per page. Default is 10, Max is 100 (Opt.)
     :rtype: json
     """
-    url_params = f'?format=json&page={page}&limit={limit}'
+    url_params = f'?format=json&page={str(page)}&limit={str(limit)}'
     if org_id is not None and str(org_id).isnumeric():
-        url_params += f'&org={org_id}'
+        url_params += f'&org={str(org_id)}'
 
     try:
         r = self.rs.get(self.url+"/api/auth/tickets/{}".format(url_params))
@@ -49,7 +49,7 @@ def get_tickets(self, org_id=None, page=1, limit=10):
         raise PatrowlException("Unable to list tickets: {}".format(e))
 
 
-def get_ticket(self, ticket_id):
+def get_ticket(self, ticket_id: int):
     """
     Get ticket details.
 
@@ -57,7 +57,7 @@ def get_ticket(self, ticket_id):
     :rtype: json
     """
     try:
-        r = self.rs.get(self.url+f"/api/auth/tickets/{ticket_id}/?format=json")
+        r = self.rs.get(self.url+f"/api/auth/tickets/{str(ticket_id)}/?format=json")
         return r.text
     except requests.exceptions.RequestException as e:
         raise PatrowlException("Unable to retrieve ticket: {}".format(e))

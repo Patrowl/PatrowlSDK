@@ -25,22 +25,27 @@
 # ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 # POSSIBILITY OF SUCH DAMAGE.
 
+from ctypes import Union
 import requests
 from patrowl.exceptions import PatrowlException
 
 
-def get_retests(self, org_id: int = None, page: int = 1, limit: int = 10):
+
+def get_retests(self, org_id: int = None, page: int = 1, limit: int = 10, status: Union[ "none", "pending", "in-progress", "done-fixed", "done-not-fixed", "error", "canceled" ] = None):
     """
     Get all retests.
 
     :param org_id: Organization ID
     :param page: Page number of results (Opt.)
     :param limit: Max results per page. Default is 10, Max is 100 (Opt.)
+    :param status: filter by status
     :rtype: json
     """
     url_params = f'?format=json&page={str(page)}&limit={str(limit)}'
-    if org_id is not None and str(org_id).isnumeric():
-        url_params += f'&org={str(org_id)}'
+    if org_id is not None:
+        url_params += f'&org={org_id}'
+    if status is not None:
+        url_params += f'&status={status}'
 
     try:
         r = self.rs.get(self.url+"/api/auth/retests/{}".format(url_params))

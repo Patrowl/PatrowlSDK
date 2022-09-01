@@ -72,26 +72,26 @@ def get_assets(self, org_id: int = None, page: int = 1, limit: int = 10, type: A
     """
     
     url_params = f'?format=json&page={str(page)}&limit={str(limit)}'
-    if org_id:
+    if org_id is not None:
         url_params += f'&org={org_id}'
-    if type:
+    if type is not None:
         url_params += f'&type={type}'
-    if criticality:
+    if criticality is not None:
         if type(criticality) is List[AssetCriticality]:
             url_params += f'&criticality={",".join(criticality)}'
         else:
             url_params += f'&criticality={criticality}'
-    if score:
+    if score is not None:
         url_params += f'&score={score}'
-    if score_max:
+    if score_max is not None:
         url_params += f'&score__lte={score_max}'
-    if score_min:
+    if score_min is not None:
         url_params += f'&score__gte={score_min}'
-    if search:
+    if search is not None:
         url_params += f'&search={search}'
     if is_monitored is not None:
         url_params += f'&is_monitored={str(is_monitored).lower()}'
-    if sorted_by:
+    if sorted_by is not None:
         url_params += f'&sorted_by={sorted_by}'
         
         

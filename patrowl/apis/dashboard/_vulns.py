@@ -25,23 +25,30 @@
 # ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 # POSSIBILITY OF SUCH DAMAGE.
 
+from typing import Union
 import requests
 from patrowl.exceptions import PatrowlException
 from . import constants
 
 
-def get_vulns(self, org_id: int = None, page: int = 1, limit: int = 10):
+def get_vulns(self, org_id: int = None, page: int = 1, limit: int = 10, search: str = None, status: Union[ "new", "ack", "assigned", "patched", "closed", "closed-benign", "closed-fp", "closed-duplicate", "closed-workaround", "closed-risk-acceptance" ] = None):
     """
     Get all vulns.
 
     :param org_id: Organization ID
     :param page: Page number of results (Opt.)
     :param limit: Max results per page. Default is 10, Max is 100 (Opt.)
+    :param search: Search query (match in title)
+    :param status: Get vuln by status
     :rtype: json
     """
     url_params = f'?format=json&page={str(page)}&limit={str(limit)}'
     if org_id is not None and str(org_id).isnumeric():
         url_params += f'&org={str(org_id)}'
+    if status is not None:
+        url_params += f'&status={status}'
+    if search is not None:
+        url_params += f'&search={search}'
 
     try:
         r = self.rs.get(self.url+"/api/auth/vulns/{}".format(url_params))

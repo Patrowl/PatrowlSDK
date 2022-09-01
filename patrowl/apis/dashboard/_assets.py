@@ -26,11 +26,27 @@
 # POSSIBILITY OF SUCH DAMAGE.
 
 import requests
+from typing import List, Union
 from patrowl.exceptions import PatrowlException
+from enum import Enum
 from . import constants
 
+class AssetType(Enum):
+    IP = "ip"
+    IP_RANGE = "ip-range"
+    IP_SUBNET = "ip-subnet"
+    FQDN = "fqdn"
+    DOMAIN = "domain"
+    URL = "url"
+    KEYWORD = "keyword"
+    
+class AssetCriticality(Enum):
+    LOW = 0
+    MEDIUM = 1
+    HIGH = 2
+    
 
-def get_assets(self, org_id: int = None, page: int = 1, limit: int = 10):
+def get_assets(self, org_id: int = None, page: int = 1, limit: int = 10, type: AssetType = None, criticality: Union[AssetCriticality, List[AssetCriticality]] = None, score: int = None, score_max: int = None, score_min: str = None, search: str = None, is_monitored: bool = None, sorted_by: str = None):
     """
     Get all assets.
 
@@ -40,12 +56,45 @@ def get_assets(self, org_id: int = None, page: int = 1, limit: int = 10):
     :type page: int
     :param limit: Max results per page. Default is 10, Max is 100 (Opt.)
     :type limit: int
+    :param type: Type of asset (ip, url, domain...)
+    :type type: AssetType
+    :param criticality: Criticality of asset, between 1-3. It can be a list, or a single int. ex: 1 or [2,3]
+    :type criticality: AssetCriticality | List[AssetCriticality]
+    :param score: Exact score of an asset. You can use the param "score_max" or/and "score_min" instead to get a range
+    :type score: int
+    :param search: Search query to find asset (search in asset title)
+    :type search: str
+    :param is_monitored: Get only monitored/not monitored assets
+    :type is_monitored: bool
+    :param sorted_by: sort by an asset attribute. ex: '-criticality' = sort by criticality DESC (-)
+    :type sorted_by: str
     :rtype: json
     """
+    
     url_params = f'?format=json&page={str(page)}&limit={str(limit)}'
-    if org_id is not None and str(org_id).isnumeric():
-        url_params += f'&org={str(org_id)}'
-
+    if org_id:
+        url_params += f'&org={org_id}'
+    if type:
+        url_params += f'&type={type}'
+    if criticality:
+        if type(criticality) is List[AssetCriticality]:
+            url_params += f'&criticality={",".join(criticality)}'
+        else:
+            url_params += f'&criticality={criticality}'
+    if score:
+        url_params += f'&score={score}'
+    if score_max:
+        url_params += f'&score__lte={score_max}'
+    if score_min:
+        url_params += f'&score__gte={score_min}'
+    if search:
+        url_params += f'&search={search}'
+    if is_monitored is not None:
+        url_params += f'&is_monitored={str(is_monitored).lower()}'
+    if sorted_by:
+        url_params += f'&sorted_by={sorted_by}'
+        
+        
     try:
         r = self.rs.get(f"{self.url}/api/auth/assets/{url_params}")
         return r.text

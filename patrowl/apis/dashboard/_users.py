@@ -93,7 +93,7 @@ def generate_self_token(self):
     :rtype: json
     """
     try:
-        r = self.rs.get(self.url+f"/api/auth/user/token/geenrate")
+        r = self.rs.get(self.url+f"/api/auth/user/token/generate")
         return r.text
     except requests.exceptions.RequestException as e:
         raise PatrowlException("Unable to renew user api token: {}".format(e))

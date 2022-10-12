@@ -28,92 +28,6 @@
 import requests
 from patrowl.exceptions import PatrowlException
 
-
-def get_users(self, page: int = 1, limit: int = 10):
-    """
-    Get all users.
-
-    :param page: Page number of results (Opt.)
-    :param limit: Max results per page. Default is 10, Max is 100 (Opt.)
-    :rtype: json
-    """
-    url_params = f'?format=json&page={str(page)}&limit={str(limit)}'
-
-    try:
-        r = self.rs.get(self.url+"/api/auth/users/{}".format(url_params))
-        return r.text
-    except requests.exceptions.RequestException as e:
-        raise PatrowlException("Unable to list users: {}".format(e))
-
-
-def get_user(self, user_id: int):
-    """
-    Get user details.
-
-    :param user_id: User ID
-    :rtype: json
-    """
-    try:
-        r = self.rs.get(
-            self.url+f"/api/auth/users/{str(user_id)}/?format=json")
-        return r.text
-    except requests.exceptions.RequestException as e:
-        raise PatrowlException("Unable to retrieve user: {}".format(e))
-
-
-def get_self_token(self):
-    """
-    Get self API Token.
-
-    :rtype: json
-    """
-    try:
-        r = self.rs.get(self.url+f"/api/auth/user/token")
-        return r.text
-    except requests.exceptions.RequestException as e:
-        raise PatrowlException(
-            "Unable to retrieve user api token: {}".format(e))
-
-
-def delete_self_token(self):
-    """
-    Delete self API Token.
-
-    :rtype: json
-    """
-    try:
-        r = self.rs.get(self.url+f"/api/auth/user/token/delete")
-        return r.text
-    except requests.exceptions.RequestException as e:
-        raise PatrowlException("Unable to delete user api token: {}".format(e))
-
-
-def generate_self_token(self):
-    """
-    Generate or renew API Token.
-
-    :rtype: json
-    """
-    try:
-        r = self.rs.get(self.url+f"/api/auth/user/token/generate")
-        return r.text
-    except requests.exceptions.RequestException as e:
-        raise PatrowlException("Unable to renew user api token: {}".format(e))
-
-
-# Stats
-def get_global_stats(self):
-    """
-    Get global usage stats.
-
-    :rtype: json
-    """
-    try:
-        return self.rs.get(self.url+"/users/api-pro/v1/admin/stats").json()
-    except requests.exceptions.RequestException as e:
-        raise PatrowlException(
-            "Unable to get global usage stats: {}".format(e))
-
 # ASM // IPAddress
 
 
@@ -133,7 +47,6 @@ def get_ipaddresses(self, team_id=None):
         raise PatrowlException("Unable to retrieve IP address: {}".format(e))
 
 
-
 def get_ipaddress(self, id):
     """
     Get IPAddress object by id.
@@ -145,7 +58,8 @@ def get_ipaddress(self, id):
     try:
         return self.rs.get(url)
     except requests.exceptions.RequestException as e:
-        raise PatrowlException("Unable to retrieve IP address by id: {}".format(e))
+        raise PatrowlException(
+            "Unable to retrieve IP address by id: {}".format(e))
 
 
 def get_ipaddress_by_value(self, value):
@@ -159,7 +73,8 @@ def get_ipaddress_by_value(self, value):
     try:
         return self.rs.get(url)
     except requests.exceptions.RequestException as e:
-        raise PatrowlException("Unable to retrieve IP address by value: {}".format(e))
+        raise PatrowlException(
+            "Unable to retrieve IP address by value: {}".format(e))
 
 
 def add_ipaddress(self, asset, address, type="ipv4", is_up=True, ping_ok=True):
@@ -184,7 +99,8 @@ def add_ipaddress(self, asset, address, type="ipv4", is_up=True, ping_ok=True):
     try:
         return self.rs.post(url, json=data)
     except requests.exceptions.RequestException as e:
-        raise PatrowlException("Unable to create a new IPAddress: {}".format(e))
+        raise PatrowlException(
+            "Unable to create a new IPAddress: {}".format(e))
 
 
 def delete_ipaddress(self, id):
@@ -216,8 +132,8 @@ def get_domains(self, team_id=None):
     try:
         return self.rs.get(url)
     except requests.exceptions.RequestException as e:
-        raise PatrowlException("Unable to retrieve Domain objects: {}".format(e))
-
+        raise PatrowlException(
+            "Unable to retrieve Domain objects: {}".format(e))
 
 
 def get_domain(self, id):
@@ -245,7 +161,8 @@ def get_domain_by_value(self, value):
     try:
         return self.rs.get(url)
     except requests.exceptions.RequestException as e:
-        raise PatrowlException("Unable to retrieve domain by value: {}".format(e))
+        raise PatrowlException(
+            "Unable to retrieve domain by value: {}".format(e))
 
 
 def add_domain(self, asset, name, parent_domain=None, is_registered=True):
@@ -268,7 +185,6 @@ def add_domain(self, asset, name, parent_domain=None, is_registered=True):
         return self.rs.post(url, json=data)
     except requests.exceptions.RequestException as e:
         raise PatrowlException("Unable to create a new Domain: {}".format(e))
-
 
 
 def delete_domain(self, id):
@@ -365,7 +281,8 @@ def get_webservers(self, team_id=None):
     try:
         return self.rs.get(url)
     except requests.exceptions.RequestException as e:
-        raise PatrowlException("Unable to retrieve WebServer objects: {}".format(e))
+        raise PatrowlException(
+            "Unable to retrieve WebServer objects: {}".format(e))
 
 
 def get_webserver(self, id):
@@ -379,7 +296,8 @@ def get_webserver(self, id):
     try:
         return self.rs.get(url)
     except requests.exceptions.RequestException as e:
-        raise PatrowlException("Unable to retrieve web server by id: {}".format(e))
+        raise PatrowlException(
+            "Unable to retrieve web server by id: {}".format(e))
 
 
 # def add_webserver(self, asset, name, parent_domain=None, is_registered=True):
@@ -429,7 +347,8 @@ def get_certificates(self, team_id=None):
     try:
         return self.rs.get(url)
     except requests.exceptions.RequestException as e:
-        raise PatrowlException("Unable to retrieve Certificate objects: {}".format(e))
+        raise PatrowlException(
+            "Unable to retrieve Certificate objects: {}".format(e))
 
 
 def get_certificate(self, id):
@@ -443,7 +362,8 @@ def get_certificate(self, id):
     try:
         return self.rs.get(url)
     except requests.exceptions.RequestException as e:
-        raise PatrowlException("Unable to retrieve certificate by id: {}".format(e))
+        raise PatrowlException(
+            "Unable to retrieve certificate by id: {}".format(e))
 
 # def add_certificate(self, asset, name, parent_domain=None, is_registered=True):
 #     """

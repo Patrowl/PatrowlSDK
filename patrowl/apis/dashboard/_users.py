@@ -60,15 +60,40 @@ def get_user(self, user_id: int):
         raise PatrowlException("Unable to retrieve user: {}".format(e))
 
 
-def get_user_totp(self, user_id: int):
+def get_self_token(self):
     """
-    Get user TOTP.
+    Get self API Token.
 
-    :param user_id: User ID
     :rtype: json
     """
     try:
-        r = self.rs.get(self.url+f"/api/auth/users/{str(user_id)}/totp?format=json")
+        r = self.rs.get(self.url+f"/api/auth/user/token")
         return r.text
     except requests.exceptions.RequestException as e:
-        raise PatrowlException("Unable to retrieve user TOTP: {}".format(e))
+        raise PatrowlException("Unable to retrieve user api token: {}".format(e))
+
+
+def delete_self_token(self):
+    """
+    Delete self API Token.
+
+    :rtype: json
+    """
+    try:
+        r = self.rs.get(self.url+f"/api/auth/user/token/delete")
+        return r.text
+    except requests.exceptions.RequestException as e:
+        raise PatrowlException("Unable to delete user api token: {}".format(e))
+
+
+def generate_self_token(self):
+    """
+    Generate or renew API Token.
+
+    :rtype: json
+    """
+    try:
+        r = self.rs.get(self.url+f"/api/auth/user/token/generate")
+        return r.text
+    except requests.exceptions.RequestException as e:
+        raise PatrowlException("Unable to renew user api token: {}".format(e))

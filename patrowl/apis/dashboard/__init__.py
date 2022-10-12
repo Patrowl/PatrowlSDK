@@ -106,13 +106,16 @@ class PatrowlApi:
     from ._feeds import get_feeds
 
     # Users
-    from ._users import get_users, get_user, get_user_totp
+    from ._users import get_users, get_user
 
     # Organizations
     from ._orgs import get_orgs, get_org, create_org, delete_org
     from ._orgs import get_org_users, get_org_not_users
     from ._orgs import get_org_settings, get_org_setting
     from ._orgs import get_org_settings_reset
+    
+    # ASM
+    from ._asm import add_domain, add_ipaddress,delete_certificate,delete_domain,delete_ipaddress,delete_port,delete_webserver,get_certificate,get_certificates,get_domain,get_domain_by_value,get_domains,get_ipaddress,get_ipaddress_by_value,get_ipaddresses,get_port,get_ports,get_webserver,get_webservers
 
     # Stats
     def get_overview_stats(self, org_id: int):
